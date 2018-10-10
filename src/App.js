@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import './App.sass';
 
-import {Header} from "./components/Header";
-import {CurrencySelector} from './components/CurrencySelector';
-import {Footer} from "./components/Footer";
-
-
+import {Header} from "./Components/Header";
+import {CurrenciesSelector} from './Pages/Cryptocurrencies/CurrenciesSelector';
+import {Footer} from "./Components/Footer";
+import {AllCoins} from './Pages/AllCoins/AllCoins';
+import {ForOFor} from './Pages/404';
 
 const crypto = {
     btc: {
-        price: 6608.25,
-        info: 'some info'
+        price: 6608.25
     },
     eth: {
         price: 225.77
@@ -26,16 +26,24 @@ const crypto = {
     }
 };
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <CurrencySelector crypto={crypto}/>
-        <Footer />
-      </div>
+const App = () => {
+    return(
+        <BrowserRouter>
+            <div className="App">
+                <Header />
+                <Switch>
+                    <Route exact path="/" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
+                    <Route exact path="/cryptocurrencies" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
+                    <Route path="/ohlcv" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
+                    <Route path="/topexchanges" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
+                    <Route path="/news" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
+                    <Route path="/coins" component={() => {return <AllCoins />}} />
+                    <Route component={ForOFor} />
+                </Switch>
+                <Footer />
+            </div>
+        </BrowserRouter>
     );
-  }
 }
 
 export default App;
