@@ -6,6 +6,9 @@ import {Header} from "./Components/Header";
 import {CurrenciesSelector} from './Pages/Cryptocurrencies/CurrenciesSelector';
 import {Footer} from "./Components/Footer";
 import {AllCoins} from './Pages/AllCoins/AllCoins';
+import {OHLCV} from "./Pages/HistoricalOHLCV/OHLCV";
+import {TopExchanges} from "./Pages/TopExchanges/TopExchanges";
+import {News} from "./Pages/News/News";
 import {ForOFor} from './Pages/404';
 
 const crypto = {
@@ -32,11 +35,11 @@ const App = () => {
             <div className="App">
                 <Header />
                 <Switch>
-                    <Route exact path="/" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
-                    <Route exact path="/cryptocurrencies" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
-                    <Route path="/ohlcv" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
-                    <Route path="/topexchanges" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
-                    <Route path="/news" component={() => {return <CurrenciesSelector crypto={crypto}/>}} />
+                    <Route exact path="/" component={() => {return <CurrenciesSelector currencies={crypto}/>}} />
+                    <Route exact path="/cryptocurrencies" component={() => {return <CurrenciesSelector currencies={crypto}/>}} />
+                    <Route path="/ohlcv" component={() => {return <OHLCV />}} />
+                    <Route path="/topexchanges" component={() => {return <TopExchanges/>}} />
+                    <Route path="/news" component={() => {return <News/>}} />
                     <Route path="/coins" component={() => {return <AllCoins />}} />
                     <Route component={ForOFor} />
                 </Switch>
