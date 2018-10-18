@@ -1,9 +1,11 @@
 import React from 'react';
+import './CurrenciesInfo.sass'
 
-export const CurrenciesInfo = ({price}) => {
+export const CurrenciesInfo = ({data}) => {
     return(
         <div className="currenciesInfo">
-            <p className="currenciesInfo__price">Price: {price}</p>
+            <p>USD: {data.USD}</p>
+            <p>EUR: {data.EUR}</p>
         </div>
     );
 };

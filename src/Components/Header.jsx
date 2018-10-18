@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
+import './Header.sass';
 
 export const Header = () => {
     return(
         <header>
-            <NavLink to="/"><span className="header__logo">CC Viewer</span></NavLink>
+            <NavLink to="/"><span className="header__text">CC Viewer</span></NavLink>
             <nav className="header__nav">
                 <ul className="header__main-menu">
                     <li className="header__main-menu__item">

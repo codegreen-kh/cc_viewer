@@ -1,46 +1,16 @@
 @import "../node_modules/material-components-web/dist/material-components-web.css"
+@import "sass/vars"
 
 body
   display: flex
   flex-direction: column
   justify-content: flex-start
   align-items: center
-  padding: 0
-  margin: 0
+  color: $color4
 .App
   display: flex
   flex-direction: column
   justify-content: flex-start
-  height: 640px
   width: 1024px
-  background-color: pink
-  margin: 20px
-  header
-    height: 60px
-    border-bottom: black 1px solid
-    .header__logo
-      float: left
-      line-height: 60px
-      margin: 0 10px
-      padding: 0 10px
-    .header__main-menu
-      float: right
-      line-height: 60px
-      margin: 0
-      padding: 0
-      .header__main-menu__item
-        list-style: none
-        display: inline
-        padding: 10px
-        margin: 10px
-  .currencySelector
-    height: 540px
-    align-items: center
-  footer
-    height: 40px
-    text-align: center
-    border-top: black 1px solid
-    .footer__label
-      line-height: 40px
-      padding: 0
-      margin: 0
+  height: 768px
+  background-color: $color3
