@@ -1,74 +1,61 @@
 import React from 'react';
-import {CurrencySelector} from "./CurrencySelector";
-import $ from "jquery";
+import {CurrencySelector} from "../../Components/CurrencySelector";
 import './Cryptocurrencies.sass'
-import {CurrenciesInfo} from "./CurrenciesInfo";
 
 export class Cryptocurrencies extends React.Component{
     constructor() {
         super();
-        this.state = {
-            response: {},
-            filteredData: [],
-            list: [],
-            coinName: "",
-            coinPrice: {}
+        this.reqInfo = {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'default'
         };
-    }
-
-    getData() {
-        $.ajax({
-            method: "get",
-            url: "https://min-api.cryptocompare.com/data/top/totalvol?limit=20&tsym=USD",
-            dataType: "json"
-        })
-            .done((data) => {
-                this.setState({response: data});
-                this.filterData();
-                this.createOptionsList();
-            });
+        this.state = {
+            optionsList: [],
+            currencies: [],
+            coinsInfo: {}
+        };
+        this.coinsInfoArr = [];
     };
 
-    getCurrencyInfo = () => {
-        const coinName = this.state.coinName;
-        const str = `https://min-api.cryptocompare.com/data/price?fsym=${coinName}&tsyms=USD,EUR`;
-
-        $.ajax({
-            method: "get",
-            url: str,
-            dataType: "json"
-        })
-            .done((data) => {
-                this.setState({coinPrice: data});
-            });
+    getData = () => {
+        fetch('https://min-api.cryptocompare.com/data/top/totalvol?limit=20&tsym=USD', this.reqInfo)
+            .then((res) => res.json())
+            .then((data) => data.Data)
+            .then((data) => data.map((item) => {return {name: item.CoinInfo.Name, fullName: item.CoinInfo.FullName}}))
+            .then((data) => {
+                this.setState({currencies: data});
+                return data;
+            })
+            .then((data) => data.map((item) => <option value={item.name} key={item.name}>{item.fullName}</option>))
+            .then((data) => this.setState({optionsList: data}));
     };
 
-    filterData = () => {
-        const data = this.state.response.Data;
-        const res = data !== undefined ? data.map((item) => {return({name: item.CoinInfo.Name, fullName: item.CoinInfo.FullName})}) : data;
-        this.setState({filteredData: res});
+    getCryptoPrice = (coinName) => {
+        const url = `https://min-api.cryptocompare.com/data/price?fsym=${coinName}&tsyms=USD,EUR`;
+        fetch(url, this.reqInfo)
+            .then((res) => res.json())
+            .then((data) => {
+                data.coinName = coinName;
+                return data;
+            })
+            .then((data) => this.coinsInfoArr.push(data))
+            .then(() => this.setState({coinsInfo: this.coinsInfoArr}));
     };
 
-    createOptionsList = () => {
-        const data = this.state.filteredData;
-        const res = data.map((item) => <option value={item.name} key={item.name}>{item.fullName}</option>);
-        this.setState({list: res});
-    }
+    getStateDataFromChild = (dataFromChild) => {
+        this.coinsInfoArr = [];
+        dataFromChild.map((item) => {return this.getCryptoPrice(item)});
+    };
 
     componentDidMount() {
         this.getData();
     }
 
-    getStateFromChild = (dataFromChild) => {
-        this.setState({coinName: dataFromChild});
-        this.getCurrencyInfo();
-    };
-
     render() {
         return (
             <div className="cryptocurrencies">
-                < CurrencySelector data={this.state.list} callbackFromParent={this.getStateFromChild}/>
-                < CurrenciesInfo data={this.state.coinPrice}/>
+                < CurrencySelector optionsList={this.state.optionsList} coinsInfo={this.state.coinsInfo} currencies={this.state.currencies} callbackFromParent={this.getStateDataFromChild}/>
             </div>
         );
     };
