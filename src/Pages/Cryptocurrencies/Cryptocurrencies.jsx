@@ -1,6 +1,9 @@
 import React from 'react';
 import {CurrencySelector} from "../../Components/CurrencySelector";
 import './Cryptocurrencies.sass'
+import {CurrenciesCounters} from "./CurrenciesCounters";
+import {CurrenciesInfo} from "./CurrenciesInfo";
+import {CurrenciesPrice} from "./CurrenciesPrice";
 
 export class Cryptocurrencies extends React.Component{
     constructor() {
@@ -13,7 +16,9 @@ export class Cryptocurrencies extends React.Component{
         this.state = {
             optionsList: [],
             currencies: [],
-            coinsInfo: {}
+            coinsInfo: {},
+            coins: [],
+            dataToCurrPrices: []
         };
         this.coinsInfoArr = [];
     };
@@ -44,6 +49,7 @@ export class Cryptocurrencies extends React.Component{
     };
 
     getStateDataFromChild = (dataFromChild) => {
+        this.setState({coins: dataFromChild});
         this.coinsInfoArr = [];
         dataFromChild.map((item) => {return this.getCryptoPrice(item)});
     };
@@ -52,10 +58,23 @@ export class Cryptocurrencies extends React.Component{
         this.getData();
     }
 
+    getStateDataFromCurrenciesInfo = (data) => {
+        this.dataToCurrenciesPrice(data);
+    };
+
+    dataToCurrenciesPrice = (data) => {
+        const coins = this.state.coinsInfo;
+        const res = coins.map((item) => item[data]);
+        this.setState({dataToCurrPrices: res});
+    };
+
     render() {
         return (
             <div className="cryptocurrencies">
                 < CurrencySelector optionsList={this.state.optionsList} coinsInfo={this.state.coinsInfo} currencies={this.state.currencies} callbackFromParent={this.getStateDataFromChild}/>
+                < CurrenciesCounters coins={this.state.coins}/>
+                < CurrenciesInfo info={this.state.coinsInfo} callbackFromParent={this.getStateDataFromCurrenciesInfo}/>
+                < CurrenciesPrice data={this.state.dataToCurrPrices}/>
             </div>
         );
     };
