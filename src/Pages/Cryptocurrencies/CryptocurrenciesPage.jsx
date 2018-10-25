@@ -2,6 +2,7 @@ import React from 'react';
 import {CryptoSelector} from "../../Components/CryptoSelector";
 import {CurrencySelector} from "../../Components/CurrencySelector";
 import {CryptoCounter} from "./CryptoCounter";
+import {CurrencyViewer} from "./CurrencyViewer";
 import './CryptocurrenciesPage.sass'
 
 export class CryptocurrenciesPage extends React.Component{
@@ -12,7 +13,7 @@ export class CryptocurrenciesPage extends React.Component{
             coins: [],
             currencies: ["USD", "EUR"],
             currArr: [],
-            counterData: {}
+            counterData: []
         };
         this.coinsPrice = [];
     };
@@ -30,20 +31,16 @@ export class CryptocurrenciesPage extends React.Component{
     };
 
     getDataFromCryptoSelector = (dataFromChild) => {
-        console.log (dataFromChild);
         this.setState({coins: dataFromChild});
         this.coinsPrice = [];
         dataFromChild.map((item) => {return this.getCryptoPrice(item)});
-        this.dataForView();
     };
 
     getDataFromCurrencySelector = (dataFromChild) => {
-        console.log (dataFromChild);
         this.setState({currArr: dataFromChild});
     };
 
     getDataFromCryptoCounter = (dataFromChild) => {
-        console.log (dataFromChild);
         this.setState({counterData: dataFromChild});
     };
 
@@ -55,7 +52,12 @@ export class CryptocurrenciesPage extends React.Component{
                     < CurrencySelector currencies={this.state.currencies} dataFromCurrencySelector={this.getDataFromCurrencySelector} />
                 </div>
                 <div className="cryptocurrencies__info">
-                    {this.state.coins.map((item) => < CryptoCounter dataFromCryptoCounter={this.getDataFromCryptoCounter} crypto={item} key={item} />)}
+                    <div className="counter">
+                        {this.state.coins.map((item) => < CryptoCounter crypto={item} key={item} dataFromCryptoCounter={this.getDataFromCryptoCounter} />)}
+                    </div>
+                    <div className="viewer">
+                        {this.state.coins.map((item) => this.state.currArr.map((i) => < CurrencyViewer count={this.state.counterData} prices={this.state.coinsPrice} key={i} name={item} currency={i}/>))}
+                    </div>
                 </div>
             </div>
         );

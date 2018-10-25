@@ -1,4 +1,5 @@
 import React from 'react';
+import './CryptoCounter.sass';
 
 export class CryptoCounter extends React.Component {
     constructor() {
@@ -17,12 +18,8 @@ export class CryptoCounter extends React.Component {
     }
 
     dataFromCryptoCounter = () => {
-        this.props.dataFromCryptoCounter({name: this.props.crypto, val: this.value});
+        this.props.dataFromCryptoCounter([this.props.crypto, this.value]);
     };
-
-    componentDidMount() {
-        this.dataFromCryptoCounter();
-    }
 
     render() {
         return(
