@@ -1,22 +1,15 @@
 import React from 'react';
-import './CurrencySelector.sass'
+import './CryptoSelector.sass'
 
-export class CurrencySelector extends React.Component {
+export class CryptoSelector extends React.Component {
     constructor() {
         super();
         this.state = {
-            currencies: [],
-            currenciesList: [],
-            coinName: "USD",
+            coinName: "BTC",
             toRender: []
         };
         this.coins = [];
         this.coinsToRender = [];
-    };
-
-    createList = (data) => {
-        const list = data.map((item) => <option value={item} key={item}>{item}</option>);
-        this.setState({currenciesList: list});
     };
 
     handleSelectChange = (e) => {
@@ -31,8 +24,9 @@ export class CurrencySelector extends React.Component {
             this.coins.push(coin);
             this.renderCoin();
         }
-        this.dataFromCurrencySelector();
+        this.dataFromCryptoSelector();
     };
+
     renderCoin = () => {
         this.coinsToRender = this.coins.map((item) => <span id={item} key={item} className="cryptoSelector__coin">{item}<button id={item + "_delete"} onClick={this.deleteCoin} className="cryptoSelector__coin-delete">X</button></span>);
         this.setState({toRender: this.coinsToRender});
@@ -45,25 +39,21 @@ export class CurrencySelector extends React.Component {
         this.setState({coinName: coin});
         this.coins = list;
         this.renderCoin();
-        this.dataFromCurrencySelector();
+        this.dataFromCryptoSelector();
     };
 
-    componentDidMount() {
-        this.createList(this.props.currencies);
-    }
-
-    dataFromCurrencySelector = () => {
-        this.props.dataFromCurrencySelector(this.coins);
+    dataFromCryptoSelector = () => {
+        this.props.dataFromCryptoSelector(this.coins);
     };
 
     render() {
         return(
-            <div className="currencySelector">
-                <div className="currencySelector__selector">
-                    <select name="currencySelector__select" onChange={this.handleSelectChange} className="currencySelector__select">{this.state.currenciesList}</select>
-                    <button className="currencySelector__addCurrency" onClick={this.addCoin}>add</button>
+            <div className="cryptoSelector">
+                <div className="cryptoSelector__selector">
+                    <select name="cryptoSelector__select" onChange={this.handleSelectChange} className="cryptoSelector__select">{this.props.optionsList}</select>
+                    <button onClick={this.addCoin} className="cryptoSelector__addCoin">add</button>
                 </div>
-                <div className="currencySelector__addedCurrencies">{this.state.toRender}</div>
+                <div className="cryptoSelector__addedCoins" id="cryptoSelector__addedCoins">{this.state.toRender}</div>
             </div>
         );
     };
