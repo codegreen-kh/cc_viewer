@@ -16,6 +16,7 @@ export class CryptocurrenciesPage extends React.Component{
             counterData: []
         };
         this.coinsPrice = [];
+        this.z = [];
     };
 
     getCryptoPrice = (coinName) => {
@@ -41,7 +42,11 @@ export class CryptocurrenciesPage extends React.Component{
     };
 
     getDataFromCryptoCounter = (dataFromChild) => {
-        this.setState({counterData: dataFromChild});
+        this.z.push(dataFromChild);
+        const c = this.z.filter((item) => item.name !== dataFromChild.name);
+        c.push(dataFromChild);
+        this.z = c;
+        this.setState({counterData: this.z});
     };
 
     render() {

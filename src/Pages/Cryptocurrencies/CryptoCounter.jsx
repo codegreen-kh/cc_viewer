@@ -18,7 +18,7 @@ export class CryptoCounter extends React.Component {
     }
 
     dataFromCryptoCounter = () => {
-        this.props.dataFromCryptoCounter([this.props.crypto, this.value]);
+        this.props.dataFromCryptoCounter({name: this.props.crypto, value: this.value});
     };
 
     render() {
