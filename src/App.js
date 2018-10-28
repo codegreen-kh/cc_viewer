@@ -21,14 +21,18 @@ class App extends React.Component {
         };
         this.state = {
             currencies: [],
-            optionsList: []
+            optionsList: [],
+            data: []
         };
     };
 
     getData = () => {
         fetch('https://min-api.cryptocompare.com/data/top/totalvol?limit=20&tsym=USD', this.reqInfo)
             .then((res) => res.json())
-            .then((data) => data.Data)
+            .then((data) => {
+                this.setState({data: data.Data});
+                return (data.Data);
+            })
             .then((data) => data.map((item) => {return {name: item.CoinInfo.Name, fullName: item.CoinInfo.FullName}}))
             .then((data) => {
                 this.setState({currencies: data});
@@ -53,7 +57,7 @@ class App extends React.Component {
                         <Route path="/ohlcv" component={() => {return <OHLCV />}} />
                         <Route path="/topexchanges" component={() => {return <TopExchanges/>}} />
                         <Route path="/news" component={() => {return <News/>}} />
-                        <Route path="/coins" component={() => {return <AllCoins />}} />
+                        <Route path="/coins" component={() => {return <AllCoins data={this.state.data}/>}} />
                         <Route component={ForOFor} />
                     </Switch>
                     <Footer />

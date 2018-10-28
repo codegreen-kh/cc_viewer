@@ -9,32 +9,42 @@ export class CryptocurrenciesPage extends React.Component{
     constructor() {
         super();
         this.state = {
-            coinsPrice: [],
+            coinsData: [],
             coins: [],
             currencies: ["USD", "EUR"],
             currArr: [],
             counterData: []
         };
-        this.coinsPrice = [];
+        this.coinsData = [];
         this.z = [];
     };
 
-    getCryptoPrice = (coinName) => {
-        const url = `https://min-api.cryptocompare.com/data/price?fsym=${coinName}&tsyms=USD,EUR`;
+    // getCryptoPrice = (coinName) => {
+    //     console.log (coinName);
+    //     const url = `https://min-api.cryptocompare.com/data/price?fsym=${coinName}&tsyms=USD,EUR`;
+    //     fetch(url, this.reqInfo)
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             data.coinName = coinName;
+    //             return data;
+    //         })
+    //         .then((data) => this.coinsPrice.push(data))
+    //         .then(() => this.setState({coinsPrice: this.coinsPrice}, () => console.log (this.coinsPrice)));
+    // };
+
+    getFullData = (coinName) => {
+        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coinName}&tsyms=USD,EUR`;
         fetch(url, this.reqInfo)
             .then((res) => res.json())
-            .then((data) => {
-                data.coinName = coinName;
-                return data;
-            })
-            .then((data) => this.coinsPrice.push(data))
-            .then(() => this.setState({coinsPrice: this.coinsPrice}));
-    };
+            .then((data) => this.coinsData.push(data))
+            .then(() => this.setState({coinsData: this.coinsData}))
+    }
 
     getDataFromCryptoSelector = (dataFromChild) => {
         this.setState({coins: dataFromChild});
-        this.coinsPrice = [];
-        dataFromChild.map((item) => {return this.getCryptoPrice(item)});
+        this.coinsData = [];
+        //dataFromChild.map((item) => {return this.getCryptoPrice(item)});
+        dataFromChild.map((item) => {return this.getFullData(item)});
     };
 
     getDataFromCurrencySelector = (dataFromChild) => {
@@ -61,7 +71,7 @@ export class CryptocurrenciesPage extends React.Component{
                         {this.state.coins.map((item) => < CryptoCounter crypto={item} key={item} dataFromCryptoCounter={this.getDataFromCryptoCounter} />)}
                     </div>
                     <div className="viewer">
-                        {this.state.coins.map((item) => this.state.currArr.map((i) => < CurrencyViewer count={this.state.counterData} prices={this.state.coinsPrice} key={i} name={item} currency={i}/>))}
+                        {this.state.coins.map((item) => this.state.currArr.map((i) => < CurrencyViewer count={this.state.counterData} coinsData={this.state.coinsData} key={i} name={item} currency={i}/>))}
                     </div>
                 </div>
             </div>
