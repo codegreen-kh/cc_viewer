@@ -7,7 +7,7 @@ import {CryptocurrenciesPage} from './Pages/Cryptocurrencies/CryptocurrenciesPag
 import {Footer} from "./Components/Footer";
 import {AllCoins} from './Pages/AllCoins/AllCoins';
 import {OHLCV} from "./Pages/HistoricalOHLCV/OHLCV";
-import {TopExchanges} from "./Pages/TopExchanges/TopExchanges";
+import {TopExchangesPage} from "./Pages/TopExchanges/TopExchangesPage";
 import {NewsPage} from "./Pages/News/NewsPage";
 import {ForOFor} from './Pages/404';
 
@@ -54,8 +54,8 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path="/" component={() => {return <CryptocurrenciesPage list={this.state.optionsList}/>}} />
                         <Route path="/cryptocurrencies" component={() => {return <CryptocurrenciesPage list={this.state.optionsList}/>}} />
-                        <Route path="/ohlcv" component={() => {return <OHLCV />}} />
-                        <Route path="/topexchanges" component={() => {return <TopExchanges/>}} />
+                        <Route path="/ohlcv" component={() => {return <OHLCV list={this.state.optionsList}/>}} />
+                        <Route path="/topexchanges" component={() => {return <TopExchangesPage/>}} />
                         <Route path="/news" component={() => {return <NewsPage/>}} />
                         <Route path="/coins" component={() => {return <AllCoins data={this.state.data}/>}} />
                         <Route component={ForOFor} />

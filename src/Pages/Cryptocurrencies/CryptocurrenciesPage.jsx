@@ -19,19 +19,6 @@ export class CryptocurrenciesPage extends React.Component{
         this.z = [];
     };
 
-    // getCryptoPrice = (coinName) => {
-    //     console.log (coinName);
-    //     const url = `https://min-api.cryptocompare.com/data/price?fsym=${coinName}&tsyms=USD,EUR`;
-    //     fetch(url, this.reqInfo)
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             data.coinName = coinName;
-    //             return data;
-    //         })
-    //         .then((data) => this.coinsPrice.push(data))
-    //         .then(() => this.setState({coinsPrice: this.coinsPrice}, () => console.log (this.coinsPrice)));
-    // };
-
     getFullData = (coinName) => {
         const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coinName}&tsyms=USD,EUR`;
         fetch(url, this.reqInfo)

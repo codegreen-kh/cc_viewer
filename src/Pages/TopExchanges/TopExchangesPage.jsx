@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const TopExchanges = () => {
+export const TopExchangesPage = () => {
     return(
         <div className="topExchanges">
             <p>Top Exchanges</p>
