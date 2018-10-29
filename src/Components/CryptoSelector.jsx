@@ -36,7 +36,6 @@ export class CryptoSelector extends React.Component {
         const target = e.target.id;
         const coin = document.getElementById(target).parentElement.id;
         const list = this.coins.filter((item) => item !== coin);
-        this.setState({coinName: coin});
         this.coins = list;
         this.renderCoin();
         this.dataFromCryptoSelector();
