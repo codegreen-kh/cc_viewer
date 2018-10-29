@@ -1,12 +1,21 @@
+@import "../../sass/vars"
+
 .item
-  width: 328px
+  width: 318px
   margin: 6px
-  background-color: pink
+  background-color: $color2
   height: 500px
   float: left
   text-align: center
+  padding: 5px
   .item__body
     display: none
   .item__readFull
     display: none
     float: right
+    bottom: -80px
+    right: 20px
+    position: relative
+  &:first-child
+    .item__readFull
+      bottom: -50px
