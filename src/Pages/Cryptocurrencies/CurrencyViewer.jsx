@@ -21,13 +21,17 @@ export const CurrencyViewer = ({coinsData, name, currency, count}) => {
     const cryptoD = display.filter((item) => item[name]);
     const allCurrenciesD = cryptoD.map((item) => item[name]);
     const thisCurrencyD = allCurrenciesD.map((item) => item[currency]);
+    const Symbol = thisCurrencyD.map((item) => item.FROMSYMBOL);
     const options = thisCurrencyD.map((item) => Object.keys(item).map((key) => <p key={key}>{key}: {item[key]}</p>));
     // info END//
+
+
+    console.log (thisCurrencyD);
 
     return(
         <div className="currencyViewer">
             <div className="currencyViewer__dropdown">
-                <Dropdown className="currencyViewer__dropdownItem" options={options} value={`${currency}: ${res}`} placeholder="Select an option" />
+                <Dropdown className="currencyViewer__dropdownItem" options={options} value={`${Symbol} -- ${currency}: ${res}`} placeholder="Select an option" />
             </div>
         </div>
     );
