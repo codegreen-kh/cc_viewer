@@ -50,7 +50,6 @@ export class AllCoins extends React.Component{
         const url_string = window.location.href;
         const url = new URL(url_string);
         const id = url.searchParams.get("id");
-
         const result = id ? filteredData.filter((item) => item.Id === id) : filteredData;
 
         //url end//

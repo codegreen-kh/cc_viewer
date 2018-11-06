@@ -25,9 +25,6 @@ export const CurrencyViewer = ({coinsData, name, currency, count}) => {
     const options = thisCurrencyD.map((item) => Object.keys(item).map((key) => <p key={key}>{key}: {item[key]}</p>));
     // info END//
 
-
-    console.log (thisCurrencyD);
-
     return(
         <div className="currencyViewer">
             <div className="currencyViewer__dropdown">

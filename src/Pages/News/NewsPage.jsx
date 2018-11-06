@@ -5,11 +5,6 @@ import './NewsPage.sass';
 export class NewsPage extends React.Component {
     constructor() {
         super();
-        this.reqInfo = {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'default'
-        };
         this.state = {
             data: []
         };
@@ -19,7 +14,7 @@ export class NewsPage extends React.Component {
     };
 
     getData = () => {
-        fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN', this.reqInfo)
+        fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN')
             .then((res) => res.json())
             .then((data) => data.Data.map((item) => Object.assign({}, {id: item.id, title: item.title, body: item.body, imageurl: item.imageurl, url: item.url})))
             .then((data) => this.setState({data: data}));

@@ -1,5 +1,13 @@
 @import "../../sass/vars"
 
+a
+  color: $color4
+  img
+    width: 300px
+    height: 300px
+    transition: all .2s ease-in-out
+    &:hover
+      transform: scale(1.05)
 .item
   width: 318px
   margin: 6px
@@ -8,15 +16,20 @@
   float: left
   text-align: center
   padding: 5px
+  transition: all .2s ease-in-out
+  &:hover
+    background-color: #e5dce1
+  .item__title
+    height: 100px
   .item__body
     display: none
     height: 0
   .item__readFull
     display: none
     float: right
-    bottom: -200px
+    bottom: -210px
     right: 20px
     position: relative
   &:first-child
     .item__readFull
-      bottom: -120px
+      bottom: -110px

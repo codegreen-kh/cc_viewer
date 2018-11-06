@@ -10,36 +10,22 @@ import {OHLCV} from "./Pages/HistoricalOHLCV/OHLCV";
 import {TopExchangesPage} from "./Pages/TopExchanges/TopExchangesPage";
 import {NewsPage} from "./Pages/News/NewsPage";
 import {ForOFor} from './Pages/404';
+import { connect } from 'react-redux';
+import { optionsListAction } from './Actions/DataListActions';
+import { allCoinsAction } from "./Actions/DataListActions";
 
-class App extends React.Component {
-    constructor() {
-        super();
-        this.reqInfo = {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'default'
-        };
-        this.state = {
-            currencies: [],
-            optionsList: [],
-            data: []
-        };
-    };
+class CryptoApp extends React.Component {
 
     getData = () => {
-        fetch('https://min-api.cryptocompare.com/data/top/totalvol?limit=20&tsym=USD', this.reqInfo)
+        fetch('https://min-api.cryptocompare.com/data/top/totalvol?limit=20&tsym=USD')
             .then((res) => res.json())
             .then((data) => {
-                this.setState({data: data.Data});
+                this.props.allCoinsAction(data.Data);
                 return (data.Data);
             })
             .then((data) => data.map((item) => {return {name: item.CoinInfo.Name, fullName: item.CoinInfo.FullName}}))
-            .then((data) => {
-                this.setState({currencies: data});
-                return data;
-            })
             .then((data) => data.map((item) => <option value={item.name} key={item.name}>{item.fullName}</option>))
-            .then((data) => this.setState({optionsList: data}));
+            .then((data) => this.props.optionsListAction(data));
     };
 
     componentDidMount() {
@@ -52,12 +38,12 @@ class App extends React.Component {
                 <div className="App">
                     <Header />
                     <Switch>
-                        <Route exact path="/" component={() => {return <CryptocurrenciesPage list={this.state.optionsList}/>}} />
-                        <Route path="/cryptocurrencies" component={() => {return <CryptocurrenciesPage list={this.state.optionsList}/>}} />
-                        <Route path="/ohlcv" component={() => {return <OHLCV list={this.state.optionsList}/>}} />
-                        <Route path="/topexchanges" component={() => {return <TopExchangesPage/>}} />
+                        <Route exact path="/" component={() => {return <CryptocurrenciesPage list={this.props.optionsList}/>}} />
+                        <Route path="/cryptocurrencies" component={() => {return <CryptocurrenciesPage list={this.props.optionsList}/>}} />
+                        <Route path="/ohlcv" component={() => {return <OHLCV list={this.props.optionsList}/>}} />
+                        <Route path="/topexchanges" component={() => {return <TopExchangesPage list={this.props.optionsList}/>}} />
                         <Route path="/news" component={() => {return <NewsPage/>}} />
-                        <Route path="/coins" component={() => {return <AllCoins data={this.state.data}/>}} />
+                        <Route path="/coins" component={() => {return <AllCoins data={this.props.data}/>}} />
                         <Route component={ForOFor} />
                     </Switch>
                     <Footer />
@@ -66,5 +52,20 @@ class App extends React.Component {
         );
     };
 };
+
+const mapStateToProps = state => ({
+    data: state.getDataReducer.data,
+    optionsList: state.getDataReducer.optionsList
+});
+
+const mapDispatchToProps = {
+    optionsListAction,
+    allCoinsAction
+};
+
+const App = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(CryptoApp);
 
 export default App;

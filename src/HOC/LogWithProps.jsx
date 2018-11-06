@@ -6,7 +6,8 @@ function LogWithProps (WrappedComponent) {
             styles: [],
             displayImg: "",
             displayBody: "",
-            displayButton: ""
+            displayButton: "",
+            titleHeight: ""
         };
 
         giveNewProps = () => {
@@ -15,11 +16,13 @@ function LogWithProps (WrappedComponent) {
                 this.setState ({displayImg: "none"});
                 this.setState ({displayBody: "block"});
                 this.setState ({displayButton: "inline-block"});
+                this.setState ({titleHeight: "40px"});
             } else if (this.props.iterator > 0 && this.props.iterator < 3) {
                 this.setState ({styles: {backgroundColor: "#d1b1c4", width: "490px", margin: "6px", height: "350px", float: "left", textAlign: "left"}});
                 this.setState ({displayImg: "none"});
                 this.setState ({displayBody: "block"});
                 this.setState ({displayButton: "inline-block"});
+                this.setState ({titleHeight: "40px"});
             }
         };
 
@@ -29,7 +32,7 @@ function LogWithProps (WrappedComponent) {
 
         render() {
             return <WrappedComponent {...this.props} styles={this.state.styles} displayImg={this.state.displayImg} displayBody={this.state.displayBody}
-            displayButton={this.state.displayButton}/>;
+            displayButton={this.state.displayButton} titleHeight={this.state.titleHeight}/>;
         }
     };
 }
