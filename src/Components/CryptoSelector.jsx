@@ -28,15 +28,16 @@ export class CryptoSelector extends React.Component {
     };
 
     renderCoin = () => {
-        this.coinsToRender = this.coins.map((item) => <span id={item} key={item} className="cryptoSelector__coin">{item}<button id={item + "_delete"} onClick={this.deleteCoin} className="cryptoSelector__coin-delete">X</button></span>);
+        this.coinsToRender = this.coins.map((item) =>
+            <span id={item} key={item} className="cryptoSelector__coin">{item}<button id={item + "_delete"} onClick={() => this.deleteCoin(item)} className="cryptoSelector__coin-delete">X</button></span>
+        );
         this.setState({toRender: this.coinsToRender});
     };
 
-    deleteCoin = (e) => {
-        const target = e.target.id;
-        const coin = document.getElementById(target).parentElement.id;
-        const list = this.coins.filter((item) => item !== coin);
+    deleteCoin = (i) => {
+        const list = this.coins.filter((item) => item !== i);
         this.coins = list;
+        console.log (this.coins);
         this.renderCoin();
         this.dataFromCryptoSelector();
     };

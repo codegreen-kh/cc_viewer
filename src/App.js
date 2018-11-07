@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import './App.sass';
 
 import {Header} from "./Components/Header";
-import {CryptocurrenciesPage} from './Pages/Cryptocurrencies/CryptocurrenciesPage';
+import CryptocurrenciesPage from './Pages/Cryptocurrencies/CryptocurrenciesPage';
 import {Footer} from "./Components/Footer";
 import {AllCoins} from './Pages/AllCoins/AllCoins';
 import {OHLCV} from "./Pages/HistoricalOHLCV/OHLCV";
@@ -38,8 +38,8 @@ class CryptoApp extends React.Component {
                 <div className="App">
                     <Header />
                     <Switch>
-                        <Route exact path="/" component={() => {return <CryptocurrenciesPage list={this.props.optionsList}/>}} />
-                        <Route path="/cryptocurrencies" component={() => {return <CryptocurrenciesPage list={this.props.optionsList}/>}} />
+                        <Route exact path="/" component={() => {return <CryptocurrenciesPage/>}} />
+                        <Route path="/cryptocurrencies" component={() => {return <CryptocurrenciesPage/>}} />
                         <Route path="/ohlcv" component={() => {return <OHLCV list={this.props.optionsList}/>}} />
                         <Route path="/topexchanges" component={() => {return <TopExchangesPage list={this.props.optionsList}/>}} />
                         <Route path="/news" component={() => {return <NewsPage/>}} />

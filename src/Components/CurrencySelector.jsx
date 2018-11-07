@@ -5,7 +5,6 @@ export class CurrencySelector extends React.Component {
     constructor() {
         super();
         this.state = {
-            currencies: [],
             currenciesList: [],
             coinName: "USD",
             toRender: []
@@ -14,8 +13,8 @@ export class CurrencySelector extends React.Component {
         this.coinsToRender = [];
     };
 
-    createList = (data) => {
-        const list = data.map((item) => <option value={item} key={item}>{item}</option>);
+    createList = () => {
+        const list = this.props.currencies.map((item) => <option value={item} key={item}>{item}</option>);
         this.setState({currenciesList: list});
     };
 
@@ -34,22 +33,24 @@ export class CurrencySelector extends React.Component {
         this.dataFromCurrencySelector();
     };
     renderCoin = () => {
-        this.coinsToRender = this.coins.map((item) => <span id={item} key={item} className="cryptoSelector__coin">{item}<button id={item + "_delete"} onClick={this.deleteCoin} className="cryptoSelector__coin-delete">X</button></span>);
+        this.coinsToRender = this.coins.map((item) => <span id={item} key={item} className="cryptoSelector__coin">{item}<button id={item + "_delete"} onClick={() => this.deleteCoin(item)} className="cryptoSelector__coin-delete">X</button></span>);
         this.setState({toRender: this.coinsToRender});
     };
 
-    deleteCoin = (e) => {
-        const target = e.target.id;
-        const coin = document.getElementById(target).parentElement.id;
-        const list = this.coins.filter((item) => item !== coin);
-        this.setState({coinName: coin});
+    deleteCoin = (i) => {
+        const list = this.coins.filter((item) => item !== i);
+        this.setState({coinName: i});
         this.coins = list;
         this.renderCoin();
         this.dataFromCurrencySelector();
     };
 
     componentDidMount() {
-        this.createList(this.props.currencies);
+        this.createList();
+    }
+
+    componentWillReceiveProps() {
+        this.createList();
     }
 
     dataFromCurrencySelector = () => {

@@ -4,14 +4,15 @@ import {CurrencySelector} from "../../Components/CurrencySelector";
 import {CryptoCounter} from "./CryptoCounter";
 import {CurrencyViewer} from "./CurrencyViewer";
 import './CryptocurrenciesPage.sass'
+import connect from "react-redux/es/connect/connect";
 
-export class CryptocurrenciesPage extends React.Component{
+class Cryptocurrencies extends React.Component{
     constructor() {
         super();
         this.state = {
             coinsData: [],
             coins: [],
-            currencies: ["USD", "EUR"],
+            currencies: ["USD"],
             currArr: [],
             counterData: []
         };
@@ -21,6 +22,8 @@ export class CryptocurrenciesPage extends React.Component{
 
     getFullData = (coinName) => {
         const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coinName}&tsyms=USD,EUR`;
+        const currencies = url.split('&tsyms=').pop().split(',');
+        this.setState({currencies: currencies});
         fetch(url, this.reqInfo)
             .then((res) => res.json())
             .then((data) => this.coinsData.push(data))
@@ -30,7 +33,6 @@ export class CryptocurrenciesPage extends React.Component{
     getDataFromCryptoSelector = (dataFromChild) => {
         this.setState({coins: dataFromChild});
         this.coinsData = [];
-        //dataFromChild.map((item) => {return this.getCryptoPrice(item)});
         dataFromChild.map((item) => {return this.getFullData(item)});
     };
 
@@ -50,7 +52,7 @@ export class CryptocurrenciesPage extends React.Component{
         return (
             <div className="cryptocurrencies__page">
                 <div className="cryptocurrencies__selectors">
-                    < CryptoSelector optionsList={this.props.list} dataFromCryptoSelector={this.getDataFromCryptoSelector} />
+                    < CryptoSelector optionsList={this.props.optionsList} dataFromCryptoSelector={this.getDataFromCryptoSelector} />
                     < CurrencySelector currencies={this.state.currencies} dataFromCurrencySelector={this.getDataFromCurrencySelector} />
                 </div>
                 <div className="cryptocurrencies__info">
@@ -65,3 +67,13 @@ export class CryptocurrenciesPage extends React.Component{
         );
     };
 };
+
+const mapStateToProps = state => ({
+    optionsList: state.getDataReducer.optionsList
+});
+
+const CryptocurrenciesPage = connect(
+    mapStateToProps
+)(Cryptocurrencies);
+
+export default CryptocurrenciesPage;
