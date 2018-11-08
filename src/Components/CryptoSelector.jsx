@@ -37,7 +37,6 @@ export class CryptoSelector extends React.Component {
     deleteCoin = (i) => {
         const list = this.coins.filter((item) => item !== i);
         this.coins = list;
-        console.log (this.coins);
         this.renderCoin();
         this.dataFromCryptoSelector();
     };

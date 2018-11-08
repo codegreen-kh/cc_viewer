@@ -17,7 +17,7 @@ class Cryptocurrencies extends React.Component{
             counterData: []
         };
         this.coinsData = [];
-        this.z = [];
+        this.dataFromCounter = [];
     };
 
     getFullData = (coinName) => {
@@ -28,7 +28,7 @@ class Cryptocurrencies extends React.Component{
             .then((res) => res.json())
             .then((data) => this.coinsData.push(data))
             .then(() => this.setState({coinsData: this.coinsData}))
-    }
+    };
 
     getDataFromCryptoSelector = (dataFromChild) => {
         this.setState({coins: dataFromChild});
@@ -41,11 +41,11 @@ class Cryptocurrencies extends React.Component{
     };
 
     getDataFromCryptoCounter = (dataFromChild) => {
-        this.z.push(dataFromChild);
-        const c = this.z.filter((item) => item.name !== dataFromChild.name);
-        c.push(dataFromChild);
-        this.z = c;
-        this.setState({counterData: this.z});
+        this.dataFromCounter = [...this.dataFromCounter, dataFromChild];
+        const filtered = this.dataFromCounter.filter((item) => item.name !== dataFromChild.name);
+        const newData = filtered.concat(dataFromChild);
+        this.dataFromCounter = newData;
+        this.setState({counterData: this.dataFromCounter});
     };
 
     render() {
