@@ -4,7 +4,7 @@ import {CurrencySelector} from "../../Components/CurrencySelector";
 import {CryptoCounter} from "./CryptoCounter";
 import {CurrencyViewer} from "./CurrencyViewer";
 import './CryptocurrenciesPage.sass'
-import connect from "react-redux/es/connect/connect";
+import { connect } from 'react-redux';
 
 class Cryptocurrencies extends React.Component{
     constructor() {

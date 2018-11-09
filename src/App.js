@@ -24,7 +24,7 @@ class CryptoApp extends React.Component {
                 return (data.Data);
             })
             .then((data) => data.map((item) => {return {name: item.CoinInfo.Name, fullName: item.CoinInfo.FullName}}))
-            .then((data) => data.map((item) => <option value={item.name} key={item.name}>{item.fullName}</option>))
+            .then((data) => data.map((item, i) => <option value={item.name} key={item.name}>{item.fullName}</option>))
             .then((data) => this.props.optionsListAction(data));
     };
 
