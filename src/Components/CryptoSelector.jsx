@@ -15,26 +15,27 @@ class CrSelector extends React.Component {
         } else {
             selectedCrypto.push(this.props.coinName);
             this.props.selectedCryptoAction(selectedCrypto);
-            this.renderCoin();
+            this.renderCoin(this.props.selectedCrypto);
         }
-        this.dataFromCryptoSelector();
+        this.dataFromCryptoSelector(this.props.selectedCrypto);
     };
 
-    renderCoin = () => {
-        this.props.cryptoToRenderAction(this.props.selectedCrypto.map((item) =>
+    renderCoin = (list) => {
+        const data = list.map((item) =>
             <span id={item} key={item} className="cryptoSelector__coin">{item}<button id={item + "_delete"} onClick={() => this.deleteCoin(item)} className="cryptoSelector__coin-delete">X</button></span>
-        ));
+        );
+        this.props.cryptoToRenderAction(data);
     };
 
     deleteCoin = (i) => {
         const list = this.props.selectedCrypto.filter((item) => item !== i);
         this.props.selectedCryptoAction(list);
-        this.renderCoin();
-        this.dataFromCryptoSelector();
+        this.renderCoin(list);
+        this.dataFromCryptoSelector(list);
     };
 
-    dataFromCryptoSelector = () => {
-        this.props.dataFromCryptoSelector(this.props.selectedCrypto);
+    dataFromCryptoSelector = (list) => {
+        this.props.dataFromCryptoSelector(list);
     };
 
     render() {

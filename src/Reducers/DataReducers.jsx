@@ -34,7 +34,6 @@ export function getDataReducer(state = initialState, action) {
                 cryptoToRender: action.payload,
             };
         case GET_SELECTED_CRYPTO:
-            console.log (action.payload);
             return {
                 ...state,
                 selectedCrypto: action.payload,
