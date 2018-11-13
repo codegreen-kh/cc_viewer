@@ -1,5 +1,5 @@
 import {GET_OTPIONS_LIST, GET_SELECTED_CRYPTO} from '../Actions/DataListActions';
-import { GET_ALL_COINS_LIST } from '../Actions/DataListActions';
+import { RECEIVE_ALL_COINS_LIST, REQUEST_ALL_COINS_LIST, ERROR_ALL_COINS_LIST } from '../Actions/DataListActions';
 import { GET_COIN_NAME } from "../Actions/DataListActions";
 import { GET_CRYPTO_TO_RENDER } from "../Actions/DataListActions";
 
@@ -18,10 +18,20 @@ export function getDataReducer(state = initialState, action) {
                 ...state,
                 optionsList: action.payload,
             };
-        case GET_ALL_COINS_LIST:
+        case REQUEST_ALL_COINS_LIST:
+            return {
+                ...state,
+                data: [],
+            };
+        case RECEIVE_ALL_COINS_LIST:
             return {
                 ...state,
                 data: action.payload,
+            };
+        case ERROR_ALL_COINS_LIST:
+            return {
+                ...state,
+                data: [],
             };
         case GET_COIN_NAME:
             return {

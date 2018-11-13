@@ -11,25 +11,24 @@ import {TopExchangesPage} from "./Pages/TopExchanges/TopExchangesPage";
 import {NewsPage} from "./Pages/News/NewsPage";
 import {ForOFor} from './Pages/404';
 import { connect } from 'react-redux';
-import { optionsListAction } from './Actions/DataListActions';
-import { allCoinsAction } from "./Actions/DataListActions";
+import { getAllCoins } from "./Actions/DataListActions";
 
 class CryptoApp extends React.Component {
 
-    getData = () => {
-        fetch('https://min-api.cryptocompare.com/data/top/totalvol?limit=20&tsym=USD')
-            .then((res) => res.json())
-            .then((data) => {
-                this.props.allCoinsAction(data.Data);
-                return (data.Data);
-            })
-            .then((data) => data.map((item) => {return {name: item.CoinInfo.Name, fullName: item.CoinInfo.FullName}}))
-            .then((data) => data.map((item, i) => <option value={item.name} key={item.name}>{item.fullName}</option>))
-            .then((data) => this.props.optionsListAction(data));
-    };
+    // getData = () => {
+    //     fetch('https://min-api.cryptocompare.com/data/top/totalvol?limit=20&tsym=USD')
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             this.props.allCoinsAction(data.Data);
+    //             return (data.Data);
+    //         })
+    //         .then((data) => data.map((item) => {return {name: item.CoinInfo.Name, fullName: item.CoinInfo.FullName}}))
+    //         .then((data) => data.map((item) => <option value={item.name} key={item.name}>{item.fullName}</option>))
+    //         .then((data) => this.props.optionsListAction(data));
+    // };
 
     componentDidMount() {
-        this.getData();
+        this.props.getAllCoins();
     }
 
     render() {
@@ -59,8 +58,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    optionsListAction,
-    allCoinsAction
+    getAllCoins
 };
 
 const App = connect(

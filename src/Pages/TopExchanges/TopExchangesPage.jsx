@@ -15,21 +15,21 @@ export class TopExchangesPage extends React.Component {
     };
 
     getData = (coinName, currency) => {
-        const url = `https://min-api.cryptocompare.com/data/top/exchanges?fsym=${coinName}&tsym=${currency}`;
+        const url = `https://min-api.cryptocompare.com/data/top/exchanges?fsym=${coinName}&tsym=${currency[0]}`;
         fetch(url, this.reqInfo)
             .then((res) => res.json())
             .then((data) => this.coinsData.push(data))
-            .then(() => this.setState({coinsData: this.coinsData}))
-    }
+            .then(() => this.setState({coinsData: this.coinsData}, () => console.log (this.state.coinsData)));
+    };
 
     getDataFromCurrencySelector = (dataFromChild) => {
-        this.setState({currArr: dataFromChild});
+        this.setState({currArr: dataFromChild}, () => console.log (this.state.currArr));
     };
 
     getDataFromCryptoSelector = (dataFromChild) => {
-        this.setState({coins: dataFromChild});
+        this.setState({coins: dataFromChild}, () => this.state.coins.map((item) => {return this.getData(item, this.state.currArr)}));
         this.coinsData = [];
-        dataFromChild.map((item) => {return this.getData(item)});
+        // dataFromChild.map((item) => {return this.getData(item, this.state.currArr)});
     };
 
     render() {
