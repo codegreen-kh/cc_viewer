@@ -16,13 +16,16 @@ export const CurrencyViewer = ({coinsData, name, currency, count}) => {
     const res = name === n[0] ? Math.round((price * v[0]) * 100) / 100 : price;
     // price END//
 
+    const openday = crypto.length === 0 ? 0 : thisCurrency.map((item) => item.OPENDAY);
+    const opendayChanges = res > openday ? <span style={{backgroundColor: "blue", color: "white"}}>+ {Math.round((res - openday) * 100) / 100}</span> : <span style={{backgroundColor: "red"}}>- {Math.round((openday - res) * 100) / 100}</span>;
+
     // info //
     const display = coinsData.map((item) => item.DISPLAY);
     const cryptoD = display.filter((item) => item[name]);
     const allCurrenciesD = cryptoD.map((item) => item[name]);
     const thisCurrencyD = allCurrenciesD.map((item) => item[currency]);
     const Symbol = thisCurrencyD.map((item) => item.FROMSYMBOL);
-    const options = thisCurrencyD.map((item) => Object.keys(item).map((key) => <p key={key}>{key}: {item[key]}</p>));
+    const options = thisCurrencyD.map((item) => Object.keys(item).map((key) => key !== 'OPENDAY' ? <p key={key}>{key}: {item[key]}</p> : <p key={key}>{key}: {item[key]} {opendayChanges}</p>));
     // info END//
 
     return(
