@@ -2,32 +2,6 @@ import React from 'react';
 import {Coin} from "./Coin";
 import './AllCoins.sass';
 
-// export const AllCoins = ({data}) => {
-//     const allowed = ['FullName', 'ImageUrl', 'Url'];
-//
-//     const filteredData = data.map((item) => Object.keys(item.CoinInfo).filter((key) => allowed.includes(key)).reduce((obj, key) => {
-//         obj[key] = item.CoinInfo[key].toLowerCase();
-//         return obj;
-//     }, {}));
-//
-//     const handleInputChange = (e) => {
-//         const inputValue = e.target.value;
-//         const res = filteredData.filter((item) => item.FullName === inputValue);
-//         console.log (res);
-//     };
-//
-//     return(
-//         <div className="allCoins">
-//             <div className="allCoins__input">
-//                 <label htmlFor="">enter coin name here<input type="text" onChange={handleInputChange}/></label>
-//             </div>
-//             <div className="allCoins__coins">
-//                 {filteredData.map((item) => <Coin data={item} key={item.FullName}/>)}
-//             </div>
-//         </div>
-//     );
-// };
-
 export class AllCoins extends React.Component{
     constructor() {
         super();
@@ -76,7 +50,8 @@ export class AllCoins extends React.Component{
 
     handleInputChange = (e) => {
         const inputValue = e.target.value.toLowerCase();
-        const filtered = this.state.newData.filter((item) => item.FullName === inputValue);
+        const stripedVal = inputValue.replace(/<(?:.|\n)*?>/gm, '');
+        const filtered = this.state.newData.filter((item) => item.FullName === stripedVal);
         if (filtered.length === 0) {
             this.renderData(this.state.newData);
         } else {
