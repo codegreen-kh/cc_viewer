@@ -1,68 +1,37 @@
 import React from 'react';
 import Chart from 'chart.js'
 
-export class ChartOHLCV extends React.Component{
+export class ChartOHLCV extends React.Component {
+    constructor() {
+        super();
+        this.chart = undefined;
+    }
+
     createChart = () => {
-        if (this.props.data.length === 0) {
-            const ctx = document.getElementById('historicalChart');
-            const myLineChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [
-                        {
-                            label: 'Select options and click create chart button',
-                            data: []
-                        }]
+        const ctx = document.getElementById('historicalChart');
+        this.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: this.props.labels,
+                datasets: this.props.datasets
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 80,
+                            minRotation: 80
+                        }
+                    }]
                 },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Multiple Historical OHLCV'
-                    }
+                title: {
+                    display: true,
+                    text: 'Multiple Historical OHLCV'
                 }
-            });
-            return myLineChart;
-        } else {
-            const data = this.props.data.map((item) => [{data: item.Data}, {crypto: item.crypto}, {currency: item.currency}, {period: item.period}])
-            const labels = data[0][0].data.map((item) => item.time);
-            const newLabels = labels.map((item) => {
-                const fullDate = new Date(item * 1000);
-                const date = fullDate.toLocaleDateString("en-US");
-                const time = fullDate.toLocaleTimeString("en-US");
-                return (`${date} ${time}`);
-            });
-            const datasets = data.map((item) => {
-                const [crypto] = item.filter((i) => i.crypto);
-                const [currency] = item.filter((i) => i.currency);
-                const prices = item[0].data.map((i) => i.open);
-                return ({label: `${crypto.crypto} - ${currency.currency}`, data: prices});
-            });
-            const ctx = document.getElementById('historicalChart');
-            const myLineChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: newLabels,
-                    datasets: datasets
-                },
-                options: {
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                autoSkip: false,
-                                maxRotation: 80,
-                                minRotation: 80
-                            }
-                        }]
-                    },
-                    title: {
-                        display: true,
-                        text: 'Multiple Historical OHLCV'
-                    }
-                }
-            });
-            return myLineChart;
-        }
+            }
+        });
+        return this.chart;
     };
 
     componentDidMount() {
@@ -70,7 +39,15 @@ export class ChartOHLCV extends React.Component{
     }
 
     componentWillReceiveProps() {
-        this.createChart();
+        this.chart.data = {
+            labels: this.props.labels,
+            datasets: this.props.datasets
+        };
+        this.chart.update();
+    }
+
+    componentWillUnmount() {
+        this.chart.destroy();
     }
 
     render() {

@@ -14,7 +14,10 @@ export class OHLCV extends React.Component {
             currencies: ["USD", "EUR"],
             currArr: [],
             coinsArr: [],
-            period: "histoday"
+            period: "histoday",
+            labels: [],
+            priceDatasets: [],
+            volumeDatasets: []
         };
         this.data = [];
     };
@@ -32,7 +35,10 @@ export class OHLCV extends React.Component {
                             data.currency = curr;
                             data.period = period;
                             this.data.push(data);
-                            this.setState({coinsData: this.data}, () => this.forceUpdate());
+                            this.setState({coinsData: this.data}, () => {
+                                this.dataForPriceChart();
+                                this.dataForVolumeChart();
+                            });
                         });
                 });
             });
@@ -54,6 +60,35 @@ export class OHLCV extends React.Component {
         this.setState({period: dataFromChild}, () => this.getFullData(this.state.coinsArr, this.state.currArr));
     };
 
+    dataForPriceChart() {
+        const data = this.state.coinsData.map((item) => [{data: item.Data}, {crypto: item.crypto}, {currency: item.currency}, {period: item.period}]);
+        const nonFilteredlabels = data[0][0].data.map((item) => item.time);
+        const labels = nonFilteredlabels.map((item) => {
+            const fullDate = new Date(item * 1000);
+            const date = fullDate.toLocaleDateString("en-US");
+            const time = fullDate.toLocaleTimeString("en-US");
+            return (`${date} ${time}`);
+        });
+        const datasets = data.map((item) => {
+            const [crypto] = item.filter((i) => i.crypto);
+            const [currency] = item.filter((i) => i.currency);
+            const prices = item[0].data.map((i) => i.open);
+            return ({label: `${crypto.crypto} - ${currency.currency}`, data: prices});
+        });
+        this.setState({labels: labels, priceDatasets: datasets}, () => this.forceUpdate());
+    };
+
+    dataForVolumeChart() {
+        const data = this.state.coinsData.map((item) => [{data: item.Data}, {crypto: item.crypto}, {currency: item.currency}, {period: item.period}]);
+        const datasets = data.map((item) => {
+            const [crypto] = item.filter((i) => i.crypto);
+            const [currency] = item.filter((i) => i.currency);
+            const prices = item[0].data.map((i) => i.volumefrom);
+            return ({label: `${crypto.crypto} - ${currency.currency}`, data: prices});
+        });
+        this.setState({volumeDatasets: datasets});
+    };
+
     render() {
         return(
             <div className="ohlcv">
@@ -61,8 +96,8 @@ export class OHLCV extends React.Component {
                     < TimeIntervalSelector dataFromTimeIntervalSelecror={this.getDataFromTimeIntervalSelector} period={this.state.period}/>
                     < CryptoSelector optionsList={this.props.list} dataFromCryptoSelector={this.getDataFromCryptoSelector} />
                     < CurrencySelector currencies={this.state.currencies} dataFromCurrencySelector={this.getDataFromCurrencySelector} />
-                    < ChartOHLCV data={this.state.coinsData}/>
-                    < VolumeChartOHLCV data={this.state.coinsData}/>
+                    < ChartOHLCV labels={this.state.labels} datasets={this.state.priceDatasets}/>
+                    < VolumeChartOHLCV labels={this.state.labels} datasets={this.state.volumeDatasets}/>
                 </div>
             </div>
         );
