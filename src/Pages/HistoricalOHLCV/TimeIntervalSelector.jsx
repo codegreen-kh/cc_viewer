@@ -32,6 +32,3 @@ export class TimeIntervalSelector extends React.Component {
         );
     };
 };
-
-
-//{this.state.periods.map((item) => <div onClick={this.handleSelector} className={"TimeIntervalSelector__interval"} id={Object.keys(item).map((i) => i)} key={Object.values(item).map((i) => i)}>{Object.values(item).map((i) => i)}</div>)}

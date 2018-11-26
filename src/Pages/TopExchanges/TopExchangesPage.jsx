@@ -1,43 +1,54 @@
 import React from 'react';
 import {CryptoSelector} from "../../Components/CryptoSelector";
-import {CurrencySelector} from "../../Components/CurrencySelector";
+import {TopExchangesVolumeInfo} from "./TopExchangesVolumeInfo";
+import './TopExchangesPage.sass'
 
 export class TopExchangesPage extends React.Component {
     constructor() {
         super();
         this.state = {
             coinsData: [],
-            currencies: ["USD", "EUR"],
-            currArr: [],
-            counterData: []
+            counterData: [],
+            coins: []
         };
         this.coinsData = [];
     };
 
-    getData = (coinName, currency) => {
-        const url = `https://min-api.cryptocompare.com/data/top/exchanges?fsym=${coinName}&tsym=${currency[0]}`;
+    getData = (coinName) => {
+        console.log (coinName);
+        const url = `https://min-api.cryptocompare.com/data/top/volumes?tsym=${coinName}&limit=4`;
         fetch(url, this.reqInfo)
             .then((res) => res.json())
+            .then(((data) => {
+                data.coinName = coinName;
+                return data;
+            }))
             .then((data) => this.coinsData.push(data))
-            .then(() => this.setState({coinsData: this.coinsData}, () => console.log (this.state.coinsData)));
-    };
-
-    getDataFromCurrencySelector = (dataFromChild) => {
-        this.setState({currArr: dataFromChild}, () => console.log (this.state.currArr));
+            .then(() => this.setState({coinsData: this.coinsData}));
     };
 
     getDataFromCryptoSelector = (dataFromChild) => {
-        this.setState({coins: dataFromChild}, () => this.state.coins.map((item) => {return this.getData(item, this.state.currArr)}));
-        this.coinsData = [];
-        // dataFromChild.map((item) => {return this.getData(item, this.state.currArr)});
+        if (dataFromChild.length === 0) {
+            this.setState({coinsData: []});
+        } else {
+            this.coinsData = [];
+            this.setState({coins: dataFromChild}, () => this.state.coins.map((item) => {return this.getData(item)}));
+        }
     };
 
     render() {
         return(
-            <div className="ohlcv">
+            <div className="topExchanges">
                 <div className="cryptocurrencies__selectors">
                     < CryptoSelector optionsList={this.props.list} dataFromCryptoSelector={this.getDataFromCryptoSelector} />
-                    < CurrencySelector currencies={this.state.currencies} dataFromCurrencySelector={this.getDataFromCurrencySelector} />
+                </div>
+                <div className="topExchanges__info">
+                    <p>
+                        Get top coins by volume for the to currency. It returns volume24hto and total supply (where available). The number of coins you get is the minimum of the limit you set and the total number of coins available.
+                    </p>
+                </div>
+                <div className="topExchanges__results">
+                    {this.state.coinsData.map((item) => < TopExchangesVolumeInfo data={item} key={item.coinName}/>)}
                 </div>
             </div>
         );

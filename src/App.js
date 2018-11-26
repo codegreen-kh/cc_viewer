@@ -15,18 +15,6 @@ import { getAllCoins } from "./Actions/DataListActions";
 
 class CryptoApp extends React.Component {
 
-    // getData = () => {
-    //     fetch('https://min-api.cryptocompare.com/data/top/totalvol?limit=20&tsym=USD')
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             this.props.allCoinsAction(data.Data);
-    //             return (data.Data);
-    //         })
-    //         .then((data) => data.map((item) => {return {name: item.CoinInfo.Name, fullName: item.CoinInfo.FullName}}))
-    //         .then((data) => data.map((item) => <option value={item.name} key={item.name}>{item.fullName}</option>))
-    //         .then((data) => this.props.optionsListAction(data));
-    // };
-
     componentDidMount() {
         this.props.getAllCoins();
     }
