@@ -66,6 +66,11 @@ export class AllCoins extends React.Component{
     render() {
         return(
             <div className="allCoins">
+                <div>
+                    <p>
+                        Returns all the coins that CryptoCompare has added to the website. This is not the full list of coins we have in the system, it is just the list of coins we have done some research on.
+                    </p>
+                </div>
                 <div className="allCoins__input">
                     <label htmlFor="">enter coin name here<input type="text" onChange={this.handleInputChange}/></label>
                 </div>

@@ -55,6 +55,9 @@ class Cryptocurrencies extends React.Component{
                     < CryptoSelector optionsList={this.props.optionsList} dataFromCryptoSelector={this.getDataFromCryptoSelector} />
                     < CurrencySelector currencies={this.state.currencies} dataFromCurrencySelector={this.getDataFromCurrencySelector} />
                 </div>
+                <div>
+                    <p>Get all the current trading info (price, vol, open, high, low etc) of any list of cryptocurrencies in any other currency that you need. If the crypto does not trade directly into the toSymbol requested, BTC will be used for conversion.</p>
+                </div>
                 <div className="cryptocurrencies__info">
                     <div className="counter">
                         {this.state.coins.map((item) => < CryptoCounter crypto={item} key={item} dataFromCryptoCounter={this.getDataFromCryptoCounter} />)}

@@ -8,6 +8,7 @@
     "material-components-web": "^0.40.0",
     "node-sass": "^4.9.3",
     "prop-types": "^15.6.2",
+    "rc-pagination": "^1.17.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-dropdown": "^1.6.2",

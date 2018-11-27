@@ -17,7 +17,9 @@ export class OHLCV extends React.Component {
             period: "histoday",
             labels: [],
             priceDatasets: [],
-            volumeDatasets: []
+            volumeDatasets: [],
+            compareDatasets: [],
+            compareLabels: []
         };
         this.data = [];
     };
